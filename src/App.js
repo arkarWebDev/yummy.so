@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, useLocation } from "react-router-dom";
+import Main from "./layouts/Main";
+import Index from "./pages/Index";
+import Details from "./pages/Details";
+import Category from "./pages/Category";
+import { AnimatePresence } from "framer-motion";
+import { ThemeProvider } from "./ThemeContext";
+import Searched from "./pages/Searched";
 
 function App() {
+  const location = useLocation();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route element={<Main />}>
+            <Route index element={<Index />} />
+            <Route element={<Details />} path="/details/:key" />
+            <Route element={<Category />} path="/category/:key" />
+            <Route element={<Searched />} path="/search/:searchKey" />
+          </Route>
+        </Routes>
+      </AnimatePresence>
+    </ThemeProvider>
   );
 }
 
